@@ -2,14 +2,6 @@
 # event_manager.py
 
 
-class TickEvent:
-    pass
-
-
-class QuitGameEvent:
-    pass
-
-
 class EventManager:
     def __init__(self):
         self.listeners = {}
@@ -23,3 +15,16 @@ class EventManager:
     def post(self, event):
         for listener in self.listeners.keys():
             listener.notify(event)
+
+
+class MoveCharactorEvent:
+    def __init__(self, direction):
+        self.direction = direction
+
+
+class TickEvent:
+    pass
+
+
+class QuitGameEvent:
+    pass

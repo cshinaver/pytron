@@ -23,9 +23,10 @@ class View:
 
 
 class Bike(pygame.sprite.Sprite):
-    def __init__(self, image_path="bike.png"):
+    def __init__(self, id=1, image_path="bike.png"):
+        self.id = id
         print "hi, im a bike"
-        self.image = image_path
+        self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
         self.rect.centerx = 200
         self.rect.centery = 200

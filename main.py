@@ -5,6 +5,7 @@ from view import View
 from game import Game
 from event_manager import EventManager
 from controller import KeyboardController
+from controller import MovementController
 from utils import apply_fn
 
 
@@ -17,9 +18,10 @@ def main():
     game = Game(ev)
     keybd = KeyboardController(ev)
     view = View(WIDTH, HEIGHT, ev, game.sprites)
+    movement_controller = MovementController(ev, game.sprites)
     apply_fn(
         lambda x: ev.register_listener(x),
-        [keybd, view, game],
+        [keybd, view, game, movement_controller],
     )
     game.run()
 
