@@ -65,8 +65,6 @@ class Bike(pygame.sprite.Sprite):
             self.image = pygame.transform.rotate(self.orig_image, 90)
             
 
-
-
 class GameBoard:
     def __init__(self):
         print "hi, im a board"
