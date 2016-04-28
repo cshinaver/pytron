@@ -6,6 +6,10 @@ class TickEvent:
     pass
 
 
+class QuitGameEvent:
+    pass
+
+
 class EventManager:
     def __init__(self):
         self.listeners = {}
