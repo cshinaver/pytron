@@ -52,7 +52,7 @@ class Bike(pygame.sprite.Sprite):
 class GameBoard:
     def __init__(self):
         print "hi, im a board"
-        self.color = (0, 255, 255)
+        self.color = (47, 79, 79)
         self.width = 440
         self.height = 440
         self.rows = 14
