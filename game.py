@@ -2,6 +2,9 @@
 # game.py
 
 import pygame
+from twisted.internet.task import LoopingCall
+from twisted.internet import reactor
+
 from event_manager import TickEvent, QuitGameEvent
 from view import Bike
 
@@ -20,17 +23,19 @@ class Game:
 
     def run(self):
         self.init_game()
-        while self.keep_running:
-            self.clock.tick(60)
-            self.event_manager.post(TickEvent())
-            print "player (x, y): ({x}, {y})".format(
-                x=self.player_bike.rect.centerx,
-                y=self.player_bike.rect.centery,
-            )
+        lc = LoopingCall(lambda: self.event_manager.post(TickEvent()))
+        interval = 1.0/60
+        lc.start(interval)
+        reactor.run()
 
     def notify(self, event):
         if isinstance(event, QuitGameEvent):
             print "Thanks for playing!"
             self.keep_running = False
             pygame.quit()
-            exit(0)
+            reactor.stop()
+        elif isinstance(event, TickEvent):
+            print "player (x, y): ({x}, {y})".format(
+                x=self.player_bike.rect.centerx,
+                y=self.player_bike.rect.centery,
+            )
