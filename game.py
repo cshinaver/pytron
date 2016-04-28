@@ -3,6 +3,7 @@
 
 import pygame
 from event_manager import TickEvent, QuitGameEvent
+from view import Bike
 
 
 class Game:
@@ -10,6 +11,8 @@ class Game:
         self.event_manager = ev
         self.keep_running = True
         self.sprites = []
+        bike = Bike()
+        self.sprites.append(bike)
 
     def init_game(self):
         pass
@@ -23,3 +26,4 @@ class Game:
             print "Thanks for playing!"
             self.keep_running = False
             pygame.quit()
+            exit(0)
