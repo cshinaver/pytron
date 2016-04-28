@@ -13,3 +13,11 @@ class View:
 
     def tick():
         pass
+
+class Sprite(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+
+class Bike(Sprite):
+    def __init__(self):
+        print "hi, im a bike"
