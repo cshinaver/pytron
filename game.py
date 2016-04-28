@@ -33,3 +33,4 @@ class Game:
             print "Thanks for playing!"
             self.keep_running = False
             pygame.quit()
+            exit(0)
