@@ -9,6 +9,10 @@ class Game:
     def __init__(self, ev):
         self.event_manager = ev
         self.keep_running = True
+        self.sprites = []
+
+    def init_game(self):
+        pass
 
     def run(self):
         while self.keep_running:

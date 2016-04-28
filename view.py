@@ -5,11 +5,12 @@ from event_manager import TickEvent
 
 
 class View:
-    def __init__(self, WIDTH, HEIGHT, ev):
+    def __init__(self, WIDTH, HEIGHT, ev, sprites):
         pygame.init()
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
         self.event_manager = ev
+        self.sprites = sprites
 
         self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 

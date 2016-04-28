@@ -16,7 +16,7 @@ def main():
     ev = EventManager()
     game = Game(ev)
     keybd = KeyboardController(ev)
-    view = View(WIDTH, HEIGHT, ev)
+    view = View(WIDTH, HEIGHT, ev, game.sprites)
     apply_fn(
         lambda x: ev.register_listener(x),
         [keybd, view, game],
