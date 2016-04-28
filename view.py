@@ -5,7 +5,7 @@ from event_manager import TickEvent
 
 
 class View:
-    def __init__(self, WIDTH, HEIGHT):
+    def __init__(self, WIDTH, HEIGHT, sprites):
         pygame.init()
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
@@ -24,5 +24,9 @@ class Sprite(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
 class Bike(Sprite):
-    def __init__(self):
+    def __init__(self, image_path="bike.png"):
         print "hi, im a bike"
+        self.image = image_path
+        self.rect = self.image.get_rect()
+        self.rect.centerx = 200
+        self.rect.centery = 200

@@ -7,7 +7,7 @@ from controller import KeyboardController
 from utils import apply_fn
 
 
-WIDTH = 340
+WIDTH = 480
 HEIGHT = 480
 
 
