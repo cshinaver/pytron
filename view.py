@@ -13,3 +13,6 @@ class View:
 
     def tick():
         pass
+
+    def notify(self, event):
+        pass
