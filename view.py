@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # view.py
 import pygame
+from event_manager import TickEvent
 
 
 class View:
@@ -11,8 +12,9 @@ class View:
 
         self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 
-    def tick():
+    def tick(self):
         pass
 
     def notify(self, event):
-        pass
+        if isinstance(event, TickEvent):
+            self.tick()
