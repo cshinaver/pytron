@@ -12,7 +12,7 @@ class MovementController:
     def __init__(self, ev, sprites):
         self.event_manager = ev
         self.sprites = sprites
-        self.player_direction = "LEFT"
+        self.player_direction = "DOWN"
 
     def notify(self, event):
         if isinstance(event, TickEvent):

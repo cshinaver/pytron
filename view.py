@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # view.py
 import pygame
-from event_manager import TickEvent
+from event_manager import (
+    TickEvent,
+    QuitGameEvent,
+    MoveCharactorEvent,
+)
 
 
 class View:
@@ -35,18 +39,32 @@ class View:
     def notify(self, event):
         if isinstance(event, TickEvent):
             self.tick()
+        if isinstance(event, MoveCharactorEvent):
+            self.sprites[0].update(event.direction)
 
 
 class Bike(pygame.sprite.Sprite):
     def __init__(self, id=1, image_path="bike.png"):
         self.id = id
         print "hi, im a bike"
-        self.image = pygame.image.load(image_path)
         self.image_path = image_path
+        self.image = pygame.image.load(self.image_path)
         self.image.set_colorkey((255, 255, 255))
+        self.orig_image = self.image
         self.rect = self.image.get_rect()
         self.rect.x = 0
         self.rect.y = 0
+
+    def update(self, direction):
+        print "updating direction to: ",direction
+        if direction == "UP" or direction == "DOWN":
+            print "in up or down", direction
+            self.image = pygame.transform.rotate(self.orig_image, 0)
+        else:
+            print "in left or right", direction
+            self.image = pygame.transform.rotate(self.orig_image, 90)
+            
+
 
 
 class GameBoard:
