@@ -5,6 +5,9 @@ from event_manager import TickEvent
 
 
 class KeyboardController:
+    def __init__(self, ev):
+        self.event_manager = ev
+
     def handle_input(self):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:

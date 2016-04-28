@@ -14,9 +14,9 @@ HEIGHT = 480
 
 def main():
     ev = EventManager()
-    keybd = KeyboardController()
-    view = View(WIDTH, HEIGHT)
     game = Game(ev)
+    keybd = KeyboardController(ev)
+    view = View(WIDTH, HEIGHT, ev)
     apply_fn(
         lambda x: ev.register_listener(x),
         [keybd, view, game],
