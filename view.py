@@ -21,11 +21,8 @@ class View:
         if isinstance(event, TickEvent):
             self.tick()
 
-class Sprite(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
 
-class Bike(Sprite):
+class Bike(pygame.sprite.Sprite):
     def __init__(self, image_path="bike.png"):
         print "hi, im a bike"
         self.image = image_path
