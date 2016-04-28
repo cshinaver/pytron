@@ -1,8 +1,10 @@
 #!/usr/bin/python
 # main.py
-import pygame
 
 from view import View
+from event_manager import EventManager, TickEvent
+from controller import KeyboardController
+from utils import apply_fn
 
 
 WIDTH = 340
@@ -10,11 +12,15 @@ HEIGHT = 480
 
 
 def main():
-    View(WIDTH, HEIGHT)
+    ev = EventManager()
+    keybd = KeyboardController()
+    view = View(WIDTH, HEIGHT)
+    apply_fn(
+        lambda x: ev.register_listener(x),
+        [keybd, view],
+    )
+
     while 1:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_l:
-                    print "l"
+        ev.post(TickEvent())
 
 main()
