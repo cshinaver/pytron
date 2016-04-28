@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # view.py
 import pygame
-from event_manager import TickEvent
+from event_manager import TickEvent, QuitGameEvent
 
 
 class View:
@@ -13,12 +13,14 @@ class View:
         self.sprites = sprites
         self.board = GameBoard()
         self.black = 0, 0, 0
+        self.game_over = False
 
         self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 
     def tick(self):
-        self.render()
-        pygame.display.flip()
+        if not self.game_over:
+            self.render()
+            pygame.display.flip()
 
     def render(self):
         self.window.fill(self.black)
@@ -35,6 +37,8 @@ class View:
     def notify(self, event):
         if isinstance(event, TickEvent):
             self.tick()
+        elif isinstance(event, QuitGameEvent):
+            self.game_over = True
 
 
 class Bike(pygame.sprite.Sprite):
