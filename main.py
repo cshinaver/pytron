@@ -2,8 +2,8 @@
 # main.py
 
 from view import View
-from event_manager import EventManager, TickEvent
 from game import Game
+from event_manager import EventManager
 from controller import KeyboardController
 from utils import apply_fn
 
