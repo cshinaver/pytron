@@ -18,13 +18,13 @@ class MovementController:
         if isinstance(event, TickEvent):
             for bike in self.sprites:
                 ds = 1
-                if self.player_direction == "LEFT":
+                if bike.direction == "LEFT":
                     bike.rect.centerx -= ds
-                elif self.player_direction == "RIGHT":
+                elif bike.direction == "RIGHT":
                     bike.rect.centerx += ds
-                elif self.player_direction == "UP":
+                elif bike.direction == "UP":
                     bike.rect.centery -= ds
-                elif self.player_direction == "DOWN":
+                elif bike.direction == "DOWN":
                     bike.rect.centery += ds
         elif isinstance(event, MoveCharactorEvent):
             self.player_direction = event.direction
