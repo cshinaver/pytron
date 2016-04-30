@@ -28,3 +28,7 @@ class TickEvent:
 
 class QuitGameEvent:
     pass
+
+
+class BeginGameEvent:
+    pass

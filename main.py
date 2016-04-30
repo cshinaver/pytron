@@ -1,11 +1,10 @@
 #!/usr/bin/python
 # main.py
 
-from view import View
-from game import Game
-from event_manager import EventManager
 from controller import KeyboardController
 from controller import MovementController
+from event_manager import EventManager
+from game import Game
 from utils import apply_fn
 
 
@@ -15,13 +14,16 @@ HEIGHT = 480
 
 def main():
     ev = EventManager()
-    game = Game(ev)
+    game = Game(ev, WIDTH, HEIGHT)
     keybd = KeyboardController(ev)
-    view = View(WIDTH, HEIGHT, ev, game.sprites)
     movement_controller = MovementController(ev, game.sprites)
     apply_fn(
         lambda x: ev.register_listener(x),
-        [keybd, view, game, movement_controller],
+        [
+            keybd,
+            game,
+            movement_controller,
+        ],
     )
     game.run()
 
