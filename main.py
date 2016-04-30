@@ -6,6 +6,8 @@ from controller import MovementController
 from event_manager import EventManager
 from game import Game
 from utils import apply_fn
+from network import begin_on_client_connect
+from twisted.internet import reactor
 
 
 WIDTH = 480
@@ -25,6 +27,7 @@ def main():
             movement_controller,
         ],
     )
-    game.run()
+    begin_on_client_connect(ev)
+    reactor.run()
 
 main()

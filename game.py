@@ -35,7 +35,6 @@ class Game:
         lc = LoopingCall(lambda: self.event_manager.post(TickEvent()))
         interval = 1.0/60
         lc.start(interval)
-        reactor.run()
 
     def notify(self, event):
         if isinstance(event, QuitGameEvent):
