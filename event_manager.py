@@ -39,3 +39,8 @@ class RegisterPlayerEvent:
         self.id = id
         self.x = x
         self.y = y
+
+
+class PlayerSetIDEvent:
+    def __init__(self, id):
+        id = id

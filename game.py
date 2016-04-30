@@ -12,6 +12,7 @@ from event_manager import (
     QuitGameEvent,
     BeginGameEvent,
     RegisterPlayerEvent,
+    PlayerSetIDEvent,
 )
 from view import Bike, View
 
@@ -36,6 +37,7 @@ class Game:
             self.sprites,
         )
         self.event_manager.register_listener(self.view)
+        self.event_manager.post(PlayerSetIDEvent(self.player_id))
 
     def run(self):
         self.init_game()

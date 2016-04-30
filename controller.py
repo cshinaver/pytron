@@ -5,6 +5,7 @@ from event_manager import (
     TickEvent,
     QuitGameEvent,
     MoveCharactorEvent,
+    PlayerSetIDEvent,
 )
 
 
@@ -28,6 +29,8 @@ class MovementController:
                     bike.rect.centery += ds
         elif isinstance(event, MoveCharactorEvent):
             self.player_direction = event.direction
+        elif isinstance(event, PlayerSetIDEvent):
+            self.player_id = event.id
 
 
 class KeyboardController:
