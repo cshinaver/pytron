@@ -25,7 +25,7 @@ class View:
     def render(self):
         self.window.fill(self.black)
         self.drawGameBoard()
-        for s in self.sprites:
+        for s in self.sprites.values():
             self.window.blit(s.image, s.rect)
 
     def drawGameBoard(self):

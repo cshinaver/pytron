@@ -43,4 +43,4 @@ class RegisterPlayerEvent:
 
 class PlayerSetIDEvent:
     def __init__(self, id):
-        id = id
+        self.id = id

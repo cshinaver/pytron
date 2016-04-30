@@ -17,7 +17,7 @@ class MovementController:
 
     def notify(self, event):
         if isinstance(event, TickEvent):
-            for bike in self.sprites:
+            for bike in self.sprites.values():
                 ds = 1
                 if bike.direction == "LEFT":
                     bike.rect.centerx -= ds
@@ -28,7 +28,7 @@ class MovementController:
                 elif bike.direction == "DOWN":
                     bike.rect.centery += ds
         elif isinstance(event, MoveCharactorEvent):
-            self.player_direction = event.direction
+            self.sprites[self.player_id].direction = event.direction
         elif isinstance(event, PlayerSetIDEvent):
             self.player_id = event.id
 

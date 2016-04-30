@@ -21,14 +21,14 @@ class Game:
     def __init__(self, ev, WIDTH, HEIGHT):
         self.event_manager = ev
         self.keep_running = True
-        self.sprites = []
+        self.sprites = {}
         self.player_id = 8
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
 
     def init_game(self):
         self.player_bike = Bike(id=self.player_id)
-        self.sprites.append(self.player_bike)
+        self.sprites[self.player_id] = self.player_bike
         self.clock = pygame.time.Clock()
         self.view = View(
             self.WIDTH,
@@ -52,7 +52,7 @@ class Game:
             pygame.quit()
             reactor.stop()
         elif isinstance(event, TickEvent):
-            for bike in self.sprites:
+            for bike in self.sprites.values():
                 print "player {n} (x, y): ({x}, {y})".format(
                     n=bike.id,
                     x=bike.rect.centerx,
@@ -70,4 +70,4 @@ class Game:
                 x=x,
                 y=y,
             ))
-            self.sprites.append(b)
+            self.sprites[id] = b
