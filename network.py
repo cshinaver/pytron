@@ -6,7 +6,7 @@ import logging
 from twisted.internet.protocol import ClientFactory, Protocol, Factory
 from twisted.internet import reactor
 
-from event_manager import BeginGameEvent, RegisterPlayerEvent
+from event_manager import BeginGameEvent, RegisterPlayerEvent, MoveCharactorEvent
 
 
 class ClientProtocol(Protocol):
@@ -16,6 +16,11 @@ class ClientProtocol(Protocol):
     def connectionMade(self):
         logging.info('Connection made to server')
         self.transport.write('meh')
+
+    def dataReceived(self, data):
+        logging.info('Data received from server: {d}'.format(
+            d=data,
+        ))
 
 
 class ClientConnectionFactory(ClientFactory):
@@ -29,6 +34,7 @@ class ClientConnectionFactory(ClientFactory):
 class ServerProtocol(Protocol):
     def __init__(self, ev):
         self.event_manager = ev
+        self.event_manager.register_listener(self)
 
     def connectionMade(self):
         logging.info(
@@ -44,6 +50,11 @@ class ServerProtocol(Protocol):
         r = RegisterPlayerEvent(id, x, y)
         self.event_manager.post(r)
         self.event_manager.post(BeginGameEvent())
+
+    def notify(self, event):
+        if isinstance(event, MoveCharactorEvent):
+            direction = event.direction
+            self.transport.write('{d}'.format(d=direction))
 
 
 class ServerConnectionFactory(Factory):
