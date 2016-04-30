@@ -32,3 +32,10 @@ class QuitGameEvent:
 
 class BeginGameEvent:
     pass
+
+
+class RegisterPlayerEvent:
+    def __init__(self, id, x, y):
+        self.id = id
+        self.x = x
+        self.y = y

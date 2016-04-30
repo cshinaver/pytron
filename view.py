@@ -42,15 +42,15 @@ class View:
 
 
 class Bike(pygame.sprite.Sprite):
-    def __init__(self, id=1, image_path="bike.png"):
+    def __init__(self, id=1, x=0, y=0, image_path="bike.png"):
         self.id = id
         print "hi, im a bike"
         self.image = pygame.image.load(image_path)
         self.image_path = image_path
         self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect()
-        self.rect.x = 0
-        self.rect.y = 0
+        self.rect.x = x
+        self.rect.y = y
 
 
 class GameBoard:

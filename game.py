@@ -1,11 +1,18 @@
 #!/usr/bin/python
 # game.py
 
+import logging
+
 import pygame
 from twisted.internet.task import LoopingCall
 from twisted.internet import reactor
 
-from event_manager import TickEvent, QuitGameEvent, BeginGameEvent
+from event_manager import (
+    TickEvent,
+    QuitGameEvent,
+    BeginGameEvent,
+    RegisterPlayerEvent,
+)
 from view import Bike, View
 
 
@@ -43,9 +50,22 @@ class Game:
             pygame.quit()
             reactor.stop()
         elif isinstance(event, TickEvent):
-            print "player (x, y): ({x}, {y})".format(
-                x=self.player_bike.rect.centerx,
-                y=self.player_bike.rect.centery,
-            )
+            for bike in self.sprites:
+                print "player {n} (x, y): ({x}, {y})".format(
+                    n=bike.id,
+                    x=bike.rect.centerx,
+                    y=bike.rect.centery,
+                )
         elif isinstance(event, BeginGameEvent):
             self.run()
+        elif isinstance(event, RegisterPlayerEvent):
+            id = event.id
+            x = event.x
+            y = event.y
+            b = Bike(id=id, x=x, y=y)
+            logging.info('Registering player {id} at ({x},{y})'.format(
+                id=id,
+                x=x,
+                y=y,
+            ))
+            self.sprites.append(b)
