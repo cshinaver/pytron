@@ -2,11 +2,16 @@
 # network.py
 
 import logging
+import pickle
 
 from twisted.internet.protocol import ClientFactory, Protocol, Factory
 from twisted.internet import reactor
 
-from event_manager import BeginGameEvent, RegisterPlayerEvent, MoveCharactorEvent
+from event_manager import (
+    BeginGameEvent,
+    RegisterPlayerEvent,
+    MoveCharactorEvent,
+)
 
 
 class ClientProtocol(Protocol):
@@ -21,6 +26,12 @@ class ClientProtocol(Protocol):
         logging.info('Data received from server: {d}'.format(
             d=data,
         ))
+        e = pickle.loads(data)
+        logging.info('Decoded server data: {e}'.format(e=e))
+        logging.info('Posting received event: {e}'.format(
+            e=e.__class__.__name__,
+        ))
+        self.event_manager.post(e)
 
 
 class ClientConnectionFactory(ClientFactory):
@@ -49,6 +60,9 @@ class ServerProtocol(Protocol):
         y = 200
         r = RegisterPlayerEvent(id, x, y)
         self.event_manager.post(r)
+        logging.info('Sending BeginGameEvent to clients')
+        self.transport.write(pickle.dumps(BeginGameEvent()))
+        logging.info('Posting BeginGameEvent')
         self.event_manager.post(BeginGameEvent())
 
     def notify(self, event):

@@ -31,7 +31,14 @@ class QuitGameEvent:
 
 
 class BeginGameEvent:
-    pass
+    def __init__(self):
+        self.name = 'BeginGameEvent'
+
+    def to_dict(self):
+        content = {
+            'name': self.name,
+        }
+        return content
 
 
 class RegisterPlayerEvent:
