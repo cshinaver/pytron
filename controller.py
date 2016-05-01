@@ -38,6 +38,10 @@ class MovementController:
             print "collision"
         if bike.direction == "LEFT" and bike.rect.centerx < 30:
             print "collision"
+        if bike.direction == "UP" and bike.rect.centery < 30:
+            print "collision"
+        if bike.direction == "DOWN" and bike.rect.centery > 445:
+            print "collision"
 
 
 class KeyboardController:
