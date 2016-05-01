@@ -56,14 +56,19 @@ class ServerProtocol(LineReceiver):
         )
 
     def lineReceived(self, data):
-        id = 2
+        id = 1
         x = 200
         y = 200
-        r = RegisterPlayerEvent(id, x, y)
+        p1 = RegisterPlayerEvent(id, x, y)
+        p2 = RegisterPlayerEvent(id + 1, 400, 400)
         logging.info('Broadcasting host player {id}'.format(id=id))
-        logging.info('Sending ' + pickle.dumps(r))
-        self.transport.write(pickle.dumps(r) + '\r\n')
-        self.event_manager.post(r)
+        self.transport.write(pickle.dumps(p1) + '\r\n')
+        self.event_manager.post(p1)
+
+        logging.info('Sending player {id} info'.format(id=p2.id))
+        self.transport.write(pickle.dumps(p2) + '\r\n')
+        self.event_manager.post(p2)
+
         logging.info('Sending BeginGameEvent to clients')
         self.transport.write(pickle.dumps(BeginGameEvent()) + '\r\n')
         logging.info('Posting BeginGameEvent')
