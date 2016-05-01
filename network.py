@@ -4,7 +4,8 @@
 import logging
 import pickle
 
-from twisted.internet.protocol import ClientFactory, Protocol, Factory
+from twisted.internet.protocol import ClientFactory, Factory
+from twisted.protocols.basic import LineReceiver
 from twisted.internet import reactor
 
 from event_manager import (
@@ -14,15 +15,15 @@ from event_manager import (
 )
 
 
-class ClientProtocol(Protocol):
+class ClientProtocol(LineReceiver):
     def __init__(self, ev):
         self.event_manager = ev
 
     def connectionMade(self):
         logging.info('Connection made to server')
-        self.transport.write('meh')
+        self.transport.write('meh\r\n\r\n')
 
-    def dataReceived(self, data):
+    def lineReceived(self, data):
         logging.info('Data received from server: {d}'.format(
             d=data,
         ))
@@ -42,7 +43,7 @@ class ClientConnectionFactory(ClientFactory):
         return ClientProtocol(self.event_manager)
 
 
-class ServerProtocol(Protocol):
+class ServerProtocol(LineReceiver):
     def __init__(self, ev):
         self.event_manager = ev
         self.event_manager.register_listener(self)
@@ -54,14 +55,17 @@ class ServerProtocol(Protocol):
             )
         )
 
-    def dataReceived(self, data):
+    def lineReceived(self, data):
         id = 2
         x = 200
         y = 200
         r = RegisterPlayerEvent(id, x, y)
+        logging.info('Broadcasting host player {id}'.format(id=id))
+        logging.info('Sending ' + pickle.dumps(r))
+        self.transport.write(pickle.dumps(r) + '\r\n')
         self.event_manager.post(r)
         logging.info('Sending BeginGameEvent to clients')
-        self.transport.write(pickle.dumps(BeginGameEvent()))
+        self.transport.write(pickle.dumps(BeginGameEvent()) + '\r\n')
         logging.info('Posting BeginGameEvent')
         self.event_manager.post(BeginGameEvent())
 
