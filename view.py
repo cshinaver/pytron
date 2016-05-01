@@ -9,6 +9,12 @@ from event_manager import (
     MoveCharactorEvent,
 )
 
+colors = [
+        (255, 0, 0), (0, 255, 0), (0, 0, 255),
+        (255, 255, 0), (0, 255, 255), (255, 0, 255),
+        (4, 57, 60), (108, 200, 40), (239, 150, 206),
+        ]
+
 
 class View:
     def __init__(self, WIDTH, HEIGHT, ev, sprites):
@@ -47,7 +53,7 @@ class View:
             for j,item in enumerate(row):
                 if item is not 0:
                     pygame.draw.line(self.window, 
-                            (250, 100, 4), 
+                            colors[item],
                             (i+self.board.x, j+self.board.y), 
                             (i+self.board.x, j+self.board.y),
                             )
@@ -111,6 +117,6 @@ class GameBoard:
                 x=s.rect.centerx,
                 y=s.rect.centery,
             ))
-            self.board[s.rect.centerx-self.x][s.rect.centery-self.y] = 5
+            self.board[s.rect.centerx-self.x][s.rect.centery-self.y] = s.id
             
 
