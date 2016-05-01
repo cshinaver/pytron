@@ -14,7 +14,7 @@ from event_manager import (
     RegisterPlayerEvent,
     PlayerSetIDEvent,
 )
-from view import Bike, View
+from view import Bike, GameBoard, View
 
 
 class Game:
@@ -28,6 +28,7 @@ class Game:
 
     def init_game(self):
         self.player_bike = Bike(id=self.player_id)
+        self.board = GameBoard(WIDTH=self.WIDTH, HEIGHT=self.HEIGHT, sprites=self.sprites)
         self.sprites[self.player_id] = self.player_bike
         self.clock = pygame.time.Clock()
         self.view = View(
@@ -35,6 +36,7 @@ class Game:
             self.HEIGHT,
             self.event_manager,
             self.sprites,
+            self.board
         )
         self.event_manager.register_listener(self.view)
         self.event_manager.post(PlayerSetIDEvent(self.player_id))

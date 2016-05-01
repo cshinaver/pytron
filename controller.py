@@ -20,7 +20,6 @@ class MovementController:
             for bike in self.sprites.values():
                 ds = 1
                 if bike.direction == "LEFT":
-                    # add bike previous position
                     bike.rect.centerx -= ds
                 elif bike.direction == "RIGHT":
                     bike.rect.centerx += ds
@@ -28,10 +27,17 @@ class MovementController:
                     bike.rect.centery -= ds
                 elif bike.direction == "DOWN":
                     bike.rect.centery += ds
+                self.dectectcollision(bike)
         elif isinstance(event, MoveCharactorEvent):
             self.sprites[self.player_id].direction = event.direction
         elif isinstance(event, PlayerSetIDEvent):
             self.player_id = event.id
+
+    def dectectcollision(self, bike):
+        if bike.direction == "RIGHT" and bike.rect.centerx > 445:
+            print "collision"
+        if bike.direction == "LEFT" and bike.rect.centerx < 30:
+            print "collision"
 
 
 class KeyboardController:

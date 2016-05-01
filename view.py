@@ -17,7 +17,7 @@ colors = [
 
 
 class View:
-    def __init__(self, WIDTH, HEIGHT, ev, sprites):
+    def __init__(self, WIDTH, HEIGHT, ev, sprites, board):
         pygame.init()
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
@@ -79,12 +79,9 @@ class Bike(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.centery = y
-        self.direction = 'LEFT'
-        self.previousx = self.rect.centerx
-        self.previousy = self.rect.centery
+        self.direction = 'UP'
 
     def update(self, direction):
-        # updates image direction
         if direction == "UP" or direction == "DOWN":
             self.image = pygame.transform.rotate(self.orig_image, 0)
         else:
@@ -112,7 +109,7 @@ class GameBoard:
 
     def update(self):
         for s in self.sprites.values():
-            logging.info('Updating gameboard for bike {id} at ({x},{y})'.format(
+            logging.debug('Updating gameboard for bike {id} at ({x},{y})'.format(
                 id=s.id,
                 x=s.rect.centerx,
                 y=s.rect.centery,
