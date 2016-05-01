@@ -49,12 +49,13 @@ class Game:
             pygame.quit()
             reactor.stop()
         elif isinstance(event, TickEvent):
-            for bike in self.sprites.values():
-                print "player {n} (x, y): ({x}, {y})".format(
-                    n=bike.id,
-                    x=bike.rect.centerx,
-                    y=bike.rect.centery,
-                )
+            pass
+            #for bike in self.sprites.values():
+            #    print "player {n} (x, y): ({x}, {y})".format(
+            #        n=bike.id,
+            #        x=bike.rect.centerx,
+            #        y=bike.rect.centery,
+            #    )
         elif isinstance(event, BeginGameEvent):
             self.run()
         elif isinstance(event, RegisterPlayerEvent):

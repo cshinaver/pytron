@@ -17,11 +17,6 @@ class EventManager:
             listener.notify(event)
 
 
-class MoveCharactorEvent:
-    def __init__(self, direction):
-        self.direction = direction
-
-
 class TickEvent:
     pass
 
@@ -51,3 +46,19 @@ class RegisterPlayerEvent:
 class PlayerSetIDEvent:
     def __init__(self, id):
         self.id = id
+
+
+class CheckinEvent:
+    pass
+
+
+class LocalMoveCharactorEvent:
+    def __init__(self, id, direction):
+        self.id = id
+        self.direction = direction
+
+
+class RemoteMoveCharactorEvent:
+    def __init__(self, id, direction):
+        self.id = id
+        self.direction = direction
