@@ -17,17 +17,19 @@ class View:
         self.sprites = sprites
         self.board = GameBoard()
         self.black = 0, 0, 0
+        self.game_over = False
 
         self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 
     def tick(self):
-        self.render()
-        pygame.display.flip()
+        if not self.game_over:
+            self.render()
+            pygame.display.flip()
 
     def render(self):
         self.window.fill(self.black)
         self.drawGameBoard()
-        for s in self.sprites:
+        for s in self.sprites.values():
             self.window.blit(s.image, s.rect)
 
     def drawGameBoard(self):
@@ -39,12 +41,12 @@ class View:
     def notify(self, event):
         if isinstance(event, TickEvent):
             self.tick()
-        if isinstance(event, MoveCharactorEvent):
-            self.sprites[0].update(event.direction)
+        elif isinstance(event, QuitGameEvent):
+            self.game_over = True
 
 
 class Bike(pygame.sprite.Sprite):
-    def __init__(self, id=1, image_path="bike.png"):
+    def __init__(self, id=1, x=0, y=0, image_path="bike.png"):
         self.id = id
         print "hi, im a bike"
         self.image_path = image_path
@@ -52,8 +54,9 @@ class Bike(pygame.sprite.Sprite):
         self.image.set_colorkey((255, 255, 255))
         self.orig_image = self.image
         self.rect = self.image.get_rect()
-        self.rect.x = 0
-        self.rect.y = 0
+        self.rect.x = x
+        self.rect.y = y
+        self.direction = 'LEFT'
 
     def update(self, direction):
         print "updating direction to: ",direction

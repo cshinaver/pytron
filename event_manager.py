@@ -28,3 +28,26 @@ class TickEvent:
 
 class QuitGameEvent:
     pass
+
+
+class BeginGameEvent:
+    def __init__(self):
+        self.name = 'BeginGameEvent'
+
+    def to_dict(self):
+        content = {
+            'name': self.name,
+        }
+        return content
+
+
+class RegisterPlayerEvent:
+    def __init__(self, id, x, y):
+        self.id = id
+        self.x = x
+        self.y = y
+
+
+class PlayerSetIDEvent:
+    def __init__(self, id):
+        self.id = id
