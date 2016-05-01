@@ -27,8 +27,6 @@ class Game:
         self.HEIGHT = HEIGHT
 
     def init_game(self):
-        self.player_bike = Bike(id=self.player_id)
-        self.sprites[self.player_id] = self.player_bike
         self.clock = pygame.time.Clock()
         self.view = View(
             self.WIDTH,
@@ -37,7 +35,6 @@ class Game:
             self.sprites,
         )
         self.event_manager.register_listener(self.view)
-        self.event_manager.post(PlayerSetIDEvent(self.player_id))
 
     def run(self):
         self.init_game()
