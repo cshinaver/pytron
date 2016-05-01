@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # view.py
 import pygame
+import logging
+
 from event_manager import (
     TickEvent,
     QuitGameEvent,
@@ -15,7 +17,7 @@ class View:
         self.HEIGHT = HEIGHT
         self.event_manager = ev
         self.sprites = sprites
-        self.board = GameBoard()
+        self.board = GameBoard(WIDTH, HEIGHT, sprites)
         self.black = 0, 0, 0
         self.game_over = False
 
@@ -25,10 +27,12 @@ class View:
         if not self.game_over:
             self.render()
             pygame.display.flip()
+            self.board.update()
 
     def render(self):
         self.window.fill(self.black)
         self.drawGameBoard()
+        self.draw_lines()
         for s in self.sprites.values():
             self.window.blit(s.image, s.rect)
 
@@ -38,7 +42,20 @@ class View:
                 pygame.draw.rect(self.window,self.board.color,
                         (i*self.board.xshft + self.board.x, j*self.board.yshft + self.board.y, self.board.xshft, self.board.yshft), 1)
 
+    def draw_lines(self):
+        for i,row in enumerate(self.board.board):
+            for j,item in enumerate(row):
+                if item is not 0:
+                    pygame.draw.line(self.window, 
+                            (250, 100, 4), 
+                            (i+self.board.x, j+self.board.y), 
+                            (i+self.board.x, j+self.board.y),
+                            )
+
     def notify(self, event):
+        if isinstance(event, MoveCharactorEvent):
+            for s in self.sprites.values():
+                s.update(event.direction)
         if isinstance(event, TickEvent):
             self.tick()
         elif isinstance(event, QuitGameEvent):
@@ -46,7 +63,7 @@ class View:
 
 
 class Bike(pygame.sprite.Sprite):
-    def __init__(self, id=1, x=0, y=0, image_path="bike.png"):
+    def __init__(self, id=1, x=440, y=440, image_path="bike.png"):
         self.id = id
         print "hi, im a bike"
         self.image_path = image_path
@@ -54,29 +71,46 @@ class Bike(pygame.sprite.Sprite):
         self.image.set_colorkey((255, 255, 255))
         self.orig_image = self.image
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.centerx = x
+        self.rect.centery = y
         self.direction = 'LEFT'
+        self.previousx = self.rect.centerx
+        self.previousy = self.rect.centery
 
     def update(self, direction):
-        print "updating direction to: ",direction
+        # updates image direction
         if direction == "UP" or direction == "DOWN":
-            print "in up or down", direction
             self.image = pygame.transform.rotate(self.orig_image, 0)
         else:
-            print "in left or right", direction
             self.image = pygame.transform.rotate(self.orig_image, 90)
-            
+
 
 class GameBoard:
-    def __init__(self):
+    def __init__(self, WIDTH, HEIGHT, sprites):
         print "hi, im a board"
+        self.sprites = sprites
         self.color = (47, 79, 79)
-        self.width = 440
-        self.height = 440
         self.rows = 14
         self.cols = 14
+        self.width = WIDTH - 20 * 2
+        self.height = HEIGHT - 20 * 2
         self.xshft = self.width / self.rows
         self.yshft = self.height / self.cols
-        self.x = (480 - self.width) / 2
-        self.y = (480 - self.height) / 2
+        self.x = (WIDTH - self.width) / 2
+        self.y = (HEIGHT - self.height) / 2
+        self.make_board()
+
+    def make_board(self):
+        self.board = [[0 for x in range(self.width)] 
+                for x in range(self.height)]
+
+    def update(self):
+        for s in self.sprites.values():
+            logging.info('Updating gameboard for bike {id} at ({x},{y})'.format(
+                id=s.id,
+                x=s.rect.centerx,
+                y=s.rect.centery,
+            ))
+            self.board[s.rect.centerx-self.x][s.rect.centery-self.y] = 5
+            
+

@@ -9,7 +9,7 @@ from twisted.internet import reactor
 
 from controller import KeyboardController
 from controller import MovementController
-from event_manager import EventManager
+from event_manager import EventManager, BeginGameEvent
 from game import Game
 from network import begin_on_client_connect, connect_to_server_host
 from utils import apply_fn
@@ -52,7 +52,7 @@ def parse_args():
 
 
 def main():
-    parse_args()
+    # parse_args()
     ev = EventManager()
     game = Game(ev, WIDTH, HEIGHT)
     keybd = KeyboardController(ev)
@@ -65,10 +65,11 @@ def main():
             movement_controller,
         ],
     )
-    if IS_HOST:
-        begin_on_client_connect(ev, PORT)
-    else:
-        connect_to_server_host(ev, HOST, PORT)
+    ev.post(BeginGameEvent())
+    # if IS_HOST:
+        # begin_on_client_connect(ev, PORT)
+    # else:
+        # connect_to_server_host(ev, HOST, PORT)
 
     reactor.run()
 

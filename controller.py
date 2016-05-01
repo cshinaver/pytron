@@ -20,6 +20,7 @@ class MovementController:
             for bike in self.sprites.values():
                 ds = 1
                 if bike.direction == "LEFT":
+                    # add bike previous position
                     bike.rect.centerx -= ds
                 elif bike.direction == "RIGHT":
                     bike.rect.centerx += ds
