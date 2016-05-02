@@ -26,7 +26,6 @@ class MovementController:
     def notify(self, event):
         if isinstance(event, TickEvent):
             if not self.tick_index % 3:
-                #for bike in self.sprites.values():
                 bike = self.sprites[self.player_id]
                 ds = 1
                 if bike.direction == "LEFT":
