@@ -25,22 +25,22 @@ class MovementController:
 
     def notify(self, event):
         if isinstance(event, TickEvent):
-            #if not self.tick_index % 10:
+            if not self.tick_index % 3:
                 #for bike in self.sprites.values():
-            bike = self.sprites[self.player_id]
-            ds = 1
-            if bike.direction == "LEFT":
-                bike.rect.centerx -= ds
-            elif bike.direction == "RIGHT":
-                bike.rect.centerx += ds
-            elif bike.direction == "UP":
-                bike.rect.centery -= ds
-            elif bike.direction == "DOWN":
-                bike.rect.centery += ds
-            self.dectectcollision(bike)
-            #    self.tick_index = 1
-            #else:
-            #    self.tick_index += 1
+                bike = self.sprites[self.player_id]
+                ds = 1
+                if bike.direction == "LEFT":
+                    bike.rect.centerx -= ds
+                elif bike.direction == "RIGHT":
+                    bike.rect.centerx += ds
+                elif bike.direction == "UP":
+                    bike.rect.centery -= ds
+                elif bike.direction == "DOWN":
+                    bike.rect.centery += ds
+                self.dectectcollision(bike)
+                self.tick_index = 1
+            else:
+                self.tick_index += 1
             e = LocalMovePlayer(
                 self.player_id,
                 self.sprites[self.player_id].rect.centerx,
