@@ -29,12 +29,20 @@ class MovementController:
                 bike = self.sprites[self.player_id]
                 ds = 1
                 if bike.direction == "LEFT":
+                    bike.prex = bike.rect.centerx
+                    bike.prey = bike.rect.centery
                     bike.rect.centerx -= ds
                 elif bike.direction == "RIGHT":
+                    bike.prex = bike.rect.centerx
+                    bike.prey = bike.rect.centery
                     bike.rect.centerx += ds
                 elif bike.direction == "UP":
+                    bike.prex = bike.rect.centerx
+                    bike.prey = bike.rect.centery
                     bike.rect.centery -= ds
                 elif bike.direction == "DOWN":
+                    bike.prex = bike.rect.centerx
+                    bike.prey = bike.rect.centery
                     bike.rect.centery += ds
                 self.dectectcollision(bike)
                 self.tick_index = 1

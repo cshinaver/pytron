@@ -33,8 +33,8 @@ class View:
     def tick(self):
         if not self.game_over:
             self.render()
-            pygame.display.flip()
             self.board.update()
+            pygame.display.flip()
 
     def render(self):
         self.window.fill(self.black)
@@ -56,7 +56,7 @@ class View:
                     pygame.draw.line(self.window, 
                             colors[item],
                             (i+self.board.x, j+self.board.y), 
-                            (i+self.board.x, j+self.board.y),
+                            (i+self.board.x, j+self.board.y)
                             )
 
     def notify(self, event):
@@ -81,6 +81,8 @@ class Bike(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.centery = y
+        self.prex = x
+        self.prey = y
         self.direction = 'UP'
 
     def update(self, direction):
@@ -120,6 +122,41 @@ class GameBoard:
             return p
 
     def update(self):
+        temp = 0
         for s in self.sprites.values():
-            self.board[s.rect.centerx-self.x][s.rect.centery-self.y] = s.id
-
+            if s.direction == "LEFT":
+                temp = s.prex
+                while temp != s.rect.centerx:
+                    logging.debug("creating trail at {x}, {y}".format(
+                        x=temp-self.x,
+                        y=s.rect.centery-self.y,
+                        ))
+                    self.board[temp - self.x][s.rect.centery - self.y] = s.id
+                    temp -= 1
+            elif s.direction == "RIGHT":
+                temp = s.prex
+                while temp != s.rect.centerx:
+                    logging.debug("creating trail at {x}, {y}".format(
+                        x=temp-self.x,
+                        y=s.rect.centery-self.y,
+                        ))
+                    self.board[temp - self.x][s.rect.centery - self.y] = s.id
+                    temp += 1
+            elif s.direction == "UP":
+                temp = s.prey
+                while temp != s.rect.centery:
+                    logging.debug("creating trail at {x}, {y}".format(
+                        x=s.rect.centerx-self.x,
+                        y=temp-self.y,
+                        ))
+                    self.board[s.rect.centerx - self.x][temp - self.y] = s.id
+                    temp -= 1
+            elif s.direction == "DOWN":
+                temp = s.prey
+                while temp != s.rect.centery:
+                    logging.debug("creating trail at {x}, {y}".format(
+                        x=s.rect.centerx-self.x,
+                        y=temp-self.y,
+                        ))
+                    self.board[s.rect.centerx - self.x][temp - self.y] = s.id
+                    temp += 1
