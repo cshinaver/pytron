@@ -52,7 +52,7 @@ def parse_args():
 
 
 def main():
-    # parse_args()
+    parse_args()
     ev = EventManager()
     game = Game(ev, WIDTH, HEIGHT)
     keybd = KeyboardController(ev)
@@ -66,10 +66,10 @@ def main():
         ],
     )
     ev.post(BeginGameEvent())
-    # if IS_HOST:
-        # begin_on_client_connect(ev, PORT)
-    # else:
-        # connect_to_server_host(ev, HOST, PORT)
+    if IS_HOST:
+        begin_on_client_connect(ev, PORT)
+    else:
+        connect_to_server_host(ev, HOST, PORT)
 
     reactor.run()
 
