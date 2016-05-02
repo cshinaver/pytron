@@ -76,3 +76,17 @@ class LocalMovePlayer:
         self.id = id
         self.x = x
         self.y = y
+
+
+class PlayerCollision:
+    def __init__(self, player_id, object_id):
+        self.player_id = player_id
+        self.object_id = object_id
+
+class PlayerDeath:
+    def __init__(self, id):
+        self.id = id
+
+class RemotePlayerDeath:
+    def __init__(self, id):
+        self.id = id

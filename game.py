@@ -13,6 +13,8 @@ from event_manager import (
     BeginGameEvent,
     RegisterPlayerEvent,
     PlayerSetIDEvent,
+    PlayerDeath,
+    RemotePlayerDeath,
 )
 from view import Bike, GameBoard, View
 
@@ -71,3 +73,9 @@ class Game:
                 y=y,
             ))
             self.sprites[id] = b
+        elif isinstance(event, PlayerDeath):
+            logging.info('Player ' + str(event.id) + ' died')
+            del self.sprites[event.id]
+        elif isinstance(event, RemotePlayerDeath):
+            logging.info('Player ' + str(event.id) + ' died')
+            del self.sprites[event.id]
