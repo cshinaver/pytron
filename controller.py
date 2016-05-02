@@ -27,7 +27,7 @@ class MovementController:
         if isinstance(event, TickEvent):
             if not self.tick_index % 3:
                 bike = self.sprites[self.player_id]
-                ds = 1
+                ds = 3
                 if bike.direction == "LEFT":
                     bike.rect.centerx -= ds
                 elif bike.direction == "RIGHT":
