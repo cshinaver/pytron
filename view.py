@@ -117,19 +117,9 @@ class GameBoard:
             return 1
         else:
             p = self.board[x - self.border][y - self.border]
-            logging.debug("Got {pos} from position ({x},{y})".format(
-                pos = p,
-                x = x - self.x,
-                y = y - self.x
-                ))
             return p
 
     def update(self):
         for s in self.sprites.values():
-            logging.debug('Updating gameboard for bike {id} at ({x},{y})'.format(
-                id=s.id,
-                x=s.rect.centerx,
-                y=s.rect.centery,
-            ))
             self.board[s.rect.centerx-self.x][s.rect.centery-self.y] = s.id
 

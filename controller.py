@@ -10,6 +10,8 @@ from event_manager import (
     LocalMoveCharactorEvent,
     RemoteMoveCharactorEvent,
     PlayerSetIDEvent,
+    RemoteMovePlayer,
+    LocalMovePlayer,
 )
 
 
@@ -19,10 +21,13 @@ class MovementController:
         self.sprites = sprites
         self.board = board
         self.player_direction = "DOWN"
+        self.tick_index = 1
 
     def notify(self, event):
         if isinstance(event, TickEvent):
-            for bike in self.sprites.values():
+            if not self.tick_index % 10:
+                #for bike in self.sprites.values():
+                bike = self.sprites[self.player_id]
                 ds = 1
                 if bike.direction == "LEFT":
                     bike.rect.centerx -= ds
@@ -33,6 +38,18 @@ class MovementController:
                 elif bike.direction == "DOWN":
                     bike.rect.centery += ds
                 self.dectectcollision(bike)
+                self.tick_index = 1
+            else:
+                self.tick_index += 1
+            e = LocalMovePlayer(
+                self.player_id,
+                self.sprites[self.player_id].rect.centerx,
+                self.sprites[self.player_id].rect.centery,
+            )
+            self.event_manager.post(e)
+        elif isinstance(event, RemoteMovePlayer):
+            self.sprites[event.id].rect.centerx = event.x
+            self.sprites[event.id].rect.centery = event.y
         elif isinstance(event, LocalMoveCharactorEvent):
             logging.info('Setting {id} direction to {d}'.format(
                 id=event.id,
@@ -49,18 +66,32 @@ class MovementController:
             self.player_id = event.id
 
     def dectectcollision(self, bike):
-        if (bike.direction == "LEFT" and bike.rect.centerx < 30) or self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery) != 0:
-            del(bike)
-            print "collision"
-        elif (bike.direction == "RIGHT" and bike.rect.centerx > 445) or self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery) != 0:
-            del(bike)
-            print "collision"
-        elif (bike.direction == "UP" and bike.rect.centery < 30) or self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery) != 0:
-            del(bike)
-            print "collision"
-        elif (bike.direction == "DOWN" and bike.rect.centery > 445) or self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery) != 0:
-            del(bike)
-            print "collision"
+        cid = self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery)
+        if cid:
+            logging.debug("collision {pid1} with {pid2}".format(
+                pid1=bike.id,
+                pid2=cid,
+                ))
+        elif (bike.direction == "LEFT" and bike.rect.centerx < 30):
+            logging.debug("collision {pid1} with {pid2}".format(
+                pid1=bike.id,
+                pid2=cid,
+                ))
+        elif (bike.direction == "RIGHT" and bike.rect.centerx > 445):
+            logging.debug("collision {pid1} with {pid2}".format(
+                pid1=bike.id,
+                pid2=cid,
+                ))
+        elif (bike.direction == "UP" and bike.rect.centery < 30):
+            logging.debug("collision {pid1} with {pid2}".format(
+                pid1=bike.id,
+                pid2=cid,
+                ))
+        elif (bike.direction == "DOWN" and bike.rect.centery > 445):
+            logging.debug("collision {pid1} with {pid2}".format(
+                pid1=bike.id,
+                pid2=cid,
+                ))
 
 
 class KeyboardController:

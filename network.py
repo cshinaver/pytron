@@ -15,6 +15,8 @@ from event_manager import (
     RemoteMoveCharactorEvent,
     PlayerSetIDEvent,
     CheckinEvent,
+    RemoteMovePlayer,
+    LocalMovePlayer,
 )
 
 
@@ -38,6 +40,9 @@ class ClientProtocol(LineReceiver):
     def notify(self, event):
         if isinstance(event, LocalMoveCharactorEvent):
             r = RemoteMoveCharactorEvent(event.id, event.direction)
+            self.transport.write(pickle.dumps(r) + '\r\n')
+        elif isinstance(event, LocalMovePlayer):
+            r = RemoteMovePlayer(event.id, event.x, event.y)
             self.transport.write(pickle.dumps(r) + '\r\n')
 
 
@@ -67,6 +72,9 @@ class ServerProtocol(LineReceiver):
     def notify(self, event):
         if isinstance(event, LocalMoveCharactorEvent):
             r = RemoteMoveCharactorEvent(event.id, event.direction)
+            self.transport.write(pickle.dumps(r) + '\r\n')
+        elif isinstance(event, LocalMovePlayer):
+            r = RemoteMovePlayer(event.id, event.x, event.y)
             self.transport.write(pickle.dumps(r) + '\r\n')
         elif isinstance(event, CheckinEvent):
             id = 1
