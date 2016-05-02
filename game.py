@@ -41,7 +41,7 @@ class Game:
     def run(self):
         self.init_game()
         lc = LoopingCall(lambda: self.event_manager.post(TickEvent()))
-        interval = 1.0/60
+        interval = 1./120
         lc.start(interval)
 
     def notify(self, event):

@@ -62,3 +62,17 @@ class RemoteMoveCharactorEvent:
     def __init__(self, id, direction):
         self.id = id
         self.direction = direction
+
+
+class RemoteMovePlayer:
+    def __init__(self, id, x, y):
+        self.id = id
+        self.x = x
+        self.y = y
+
+
+class LocalMovePlayer:
+    def __init__(self, id, x, y):
+        self.id = id
+        self.x = x
+        self.y = y

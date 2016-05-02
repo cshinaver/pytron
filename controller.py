@@ -10,6 +10,8 @@ from event_manager import (
     LocalMoveCharactorEvent,
     RemoteMoveCharactorEvent,
     PlayerSetIDEvent,
+    RemoteMovePlayer,
+    LocalMovePlayer,
 )
 
 
@@ -19,10 +21,12 @@ class MovementController:
         self.sprites = sprites
         self.board = board
         self.player_direction = "DOWN"
+        self.tick_index = 1
 
     def notify(self, event):
         if isinstance(event, TickEvent):
-            for bike in self.sprites.values():
+            if not self.tick_index % 3:
+                bike = self.sprites[self.player_id]
                 ds = 1
                 if bike.direction == "LEFT":
                     bike.rect.centerx -= ds
@@ -33,6 +37,18 @@ class MovementController:
                 elif bike.direction == "DOWN":
                     bike.rect.centery += ds
                 self.dectectcollision(bike)
+                self.tick_index = 1
+            else:
+                self.tick_index += 1
+            e = LocalMovePlayer(
+                self.player_id,
+                self.sprites[self.player_id].rect.centerx,
+                self.sprites[self.player_id].rect.centery,
+            )
+            self.event_manager.post(e)
+        elif isinstance(event, RemoteMovePlayer):
+            self.sprites[event.id].rect.centerx = event.x
+            self.sprites[event.id].rect.centery = event.y
         elif isinstance(event, LocalMoveCharactorEvent):
             logging.info('Setting {id} direction to {d}'.format(
                 id=event.id,
