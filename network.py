@@ -31,10 +31,6 @@ class ClientProtocol(LineReceiver):
 
     def lineReceived(self, data):
         e = pickle.loads(data)
-        logging.info('Decoded server data: {e}'.format(e=e))
-        logging.info('Posting received event: {e}'.format(
-            e=e.__class__.__name__,
-        ))
         self.event_manager.post(e)
 
     def notify(self, event):
