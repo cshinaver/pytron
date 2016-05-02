@@ -6,7 +6,8 @@ import logging
 from event_manager import (
     TickEvent,
     QuitGameEvent,
-    MoveCharactorEvent,
+    LocalMoveCharactorEvent,
+    RemoteMoveCharactorEvent,
 )
 
 colors = [
@@ -59,10 +60,11 @@ class View:
                             )
 
     def notify(self, event):
-        if isinstance(event, MoveCharactorEvent):
-            for s in self.sprites.values():
-                s.update(event.direction)
-        if isinstance(event, TickEvent):
+        if isinstance(event, LocalMoveCharactorEvent):
+            self.sprites[event.id].update(event.direction)
+        elif isinstance(event, RemoteMoveCharactorEvent):
+            self.sprites[event.id].update(event.direction)
+        elif isinstance(event, TickEvent):
             self.tick()
         elif isinstance(event, QuitGameEvent):
             self.game_over = True

@@ -28,8 +28,6 @@ class Game:
         self.HEIGHT = HEIGHT
 
     def init_game(self):
-        self.player_bike = Bike(id=self.player_id)
-        self.sprites[self.player_id] = self.player_bike
         self.clock = pygame.time.Clock()
         self.view = View(
             self.WIDTH,
@@ -39,7 +37,6 @@ class Game:
             self.board
         )
         self.event_manager.register_listener(self.view)
-        self.event_manager.post(PlayerSetIDEvent(self.player_id))
 
     def run(self):
         self.init_game()
@@ -54,12 +51,13 @@ class Game:
             pygame.quit()
             reactor.stop()
         elif isinstance(event, TickEvent):
-            for bike in self.sprites.values():
-                print "player {n} (x, y): ({x}, {y})".format(
-                    n=bike.id,
-                    x=bike.rect.centerx,
-                    y=bike.rect.centery,
-                )
+            pass
+            #for bike in self.sprites.values():
+            #    print "player {n} (x, y): ({x}, {y})".format(
+            #        n=bike.id,
+            #        x=bike.rect.centerx,
+            #        y=bike.rect.centery,
+            #    )
         elif isinstance(event, BeginGameEvent):
             self.run()
         elif isinstance(event, RegisterPlayerEvent):
