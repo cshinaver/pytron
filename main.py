@@ -56,7 +56,7 @@ def main():
     ev = EventManager()
     game = Game(ev, WIDTH, HEIGHT)
     keybd = KeyboardController(ev)
-    movement_controller = MovementController(ev, game.sprites)
+    movement_controller = MovementController(ev, game.sprites, game.board)
     apply_fn(
         lambda x: ev.register_listener(x),
         [

@@ -23,7 +23,7 @@ class View:
         self.HEIGHT = HEIGHT
         self.event_manager = ev
         self.sprites = sprites
-        self.board = GameBoard(WIDTH, HEIGHT, sprites)
+        self.board = board
         self.black = 0, 0, 0
         self.game_over = False
 
@@ -95,17 +95,32 @@ class GameBoard:
         self.color = (47, 79, 79)
         self.rows = 14
         self.cols = 14
-        self.width = WIDTH - 20 * 2
-        self.height = HEIGHT - 20 * 2
+        self.border = 20
+        self.width = WIDTH - self.border * 2
+        self.height = HEIGHT - self.border * 2
         self.xshft = self.width / self.rows
         self.yshft = self.height / self.cols
         self.x = (WIDTH - self.width) / 2
         self.y = (HEIGHT - self.height) / 2
+        self.brx = self.width + self.border
+        self.bry = self.height + self.border
         self.make_board()
 
     def make_board(self):
         self.board = [[0 for x in range(self.width)] 
                 for x in range(self.height)]
+
+    def get_adjusted_position(self, x, y):
+        if x < self.x or y < self.y or x > self.brx or y > self.bry:
+            return 1
+        else:
+            p = self.board[x - self.border][y - self.border]
+            logging.debug("Got {pos} from position ({x},{y})".format(
+                pos = p,
+                x = x - self.x,
+                y = y - self.x
+                ))
+            return p
 
     def update(self):
         for s in self.sprites.values():
@@ -115,5 +130,4 @@ class GameBoard:
                 y=s.rect.centery,
             ))
             self.board[s.rect.centerx-self.x][s.rect.centery-self.y] = s.id
-            
 

@@ -10,9 +10,10 @@ from event_manager import (
 
 
 class MovementController:
-    def __init__(self, ev, sprites):
+    def __init__(self, ev, sprites, board):
         self.event_manager = ev
         self.sprites = sprites
+        self.board = board
         self.player_direction = "DOWN"
 
     def notify(self, event):
@@ -34,13 +35,17 @@ class MovementController:
             self.player_id = event.id
 
     def dectectcollision(self, bike):
-        if bike.direction == "RIGHT" and bike.rect.centerx > 445:
+        if (bike.direction == "LEFT" and bike.rect.centerx < 30) or self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery) != 0:
+            del(bike)
             print "collision"
-        if bike.direction == "LEFT" and bike.rect.centerx < 30:
+        elif (bike.direction == "RIGHT" and bike.rect.centerx > 445) or self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery) != 0:
+            del(bike)
             print "collision"
-        if bike.direction == "UP" and bike.rect.centery < 30:
+        elif (bike.direction == "UP" and bike.rect.centery < 30) or self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery) != 0:
+            del(bike)
             print "collision"
-        if bike.direction == "DOWN" and bike.rect.centery > 445:
+        elif (bike.direction == "DOWN" and bike.rect.centery > 445) or self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery) != 0:
+            del(bike)
             print "collision"
 
 

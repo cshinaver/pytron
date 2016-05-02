@@ -22,13 +22,13 @@ class Game:
         self.event_manager = ev
         self.keep_running = True
         self.sprites = {}
+        self.board = GameBoard(WIDTH, HEIGHT, self.sprites)
         self.player_id = 8
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
 
     def init_game(self):
         self.player_bike = Bike(id=self.player_id)
-        self.board = GameBoard(WIDTH=self.WIDTH, HEIGHT=self.HEIGHT, sprites=self.sprites)
         self.sprites[self.player_id] = self.player_bike
         self.clock = pygame.time.Clock()
         self.view = View(
