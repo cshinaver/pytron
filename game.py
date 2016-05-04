@@ -54,12 +54,6 @@ class Game:
             reactor.stop()
         elif isinstance(event, TickEvent):
             pass
-            #for bike in self.sprites.values():
-            #    print "player {n} (x, y): ({x}, {y})".format(
-            #        n=bike.id,
-            #        x=bike.rect.centerx,
-            #        y=bike.rect.centery,
-            #    )
         elif isinstance(event, BeginGameEvent):
             self.run()
         elif isinstance(event, RegisterPlayerEvent):
@@ -75,7 +69,11 @@ class Game:
             self.sprites[id] = b
         elif isinstance(event, PlayerDeath):
             logging.info('Player ' + str(event.id) + ' died')
-            #del self.sprites[event.id]
+            logging.info('Player ' + str(event.id) + ' loses')
+            logging.info('Exitting.')
+            self.event_manager.post(QuitGameEvent())
         elif isinstance(event, RemotePlayerDeath):
             logging.info('Player ' + str(event.id) + ' died')
-            #del self.sprites[event.id]
+            logging.info('Player ' + str(event.id) + ' loses')
+            logging.info('Exitting.')
+            self.event_manager.post(QuitGameEvent())
