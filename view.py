@@ -53,9 +53,9 @@ class View:
         for i,row in enumerate(self.board.board):
             for j,item in enumerate(row):
                 if item is not 0:
-                    pygame.draw.line(self.window, 
+                    pygame.draw.line(self.window,
                             colors[item],
-                            (i+self.board.x, j+self.board.y), 
+                            (i+self.board.x, j+self.board.y),
                             (i+self.board.x, j+self.board.y)
                             )
 
@@ -73,7 +73,6 @@ class View:
 class Bike(pygame.sprite.Sprite):
     def __init__(self, id=1, x=440, y=440, image_path="bike.png"):
         self.id = id
-        print "hi, im a bike"
         self.image_path = image_path
         self.image = pygame.image.load(self.image_path)
         self.image.set_colorkey((255, 255, 255))
@@ -94,7 +93,6 @@ class Bike(pygame.sprite.Sprite):
 
 class GameBoard:
     def __init__(self, WIDTH, HEIGHT, sprites):
-        print "hi, im a board"
         self.sprites = sprites
         self.color = (47, 79, 79)
         self.rows = 14
@@ -111,7 +109,7 @@ class GameBoard:
         self.make_board()
 
     def make_board(self):
-        self.board = [[0 for x in range(self.width)] 
+        self.board = [[0 for x in range(self.width)]
                 for x in range(self.height)]
 
     def get_adjusted_position(self, x, y):
