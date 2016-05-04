@@ -53,9 +53,9 @@ class View:
         for i,row in enumerate(self.board.board):
             for j,item in enumerate(row):
                 if item is not 0:
-                    pygame.draw.line(self.window, 
+                    pygame.draw.line(self.window,
                             colors[item],
-                            (i+self.board.x, j+self.board.y), 
+                            (i+self.board.x, j+self.board.y),
                             (i+self.board.x, j+self.board.y)
                             )
 
@@ -109,7 +109,7 @@ class GameBoard:
         self.make_board()
 
     def make_board(self):
-        self.board = [[0 for x in range(self.width)] 
+        self.board = [[0 for x in range(self.width)]
                 for x in range(self.height)]
 
     def get_adjusted_position(self, x, y):
