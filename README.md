@@ -26,3 +26,7 @@ trail, or your opponents trail will result in the death of your bike
 and will proceed to quit the game. Note that moving backwards onto
 your own trail will kill your bike (trying to move down while 
 moving up).
+
+
+Some helpful debugging messages can be printed by changing line 23
+of main.py where is says WARNING to DEBUG.
