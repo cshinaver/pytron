@@ -68,12 +68,10 @@ class Game:
             ))
             self.sprites[id] = b
         elif isinstance(event, PlayerDeath):
-            logging.info('Player ' + str(event.id) + ' died')
-            logging.info('Player ' + str(event.id) + ' loses')
+            print 'Player ' + str(event.id) + ' died'
             logging.info('Exitting.')
             self.event_manager.post(QuitGameEvent())
         elif isinstance(event, RemotePlayerDeath):
-            logging.info('Player ' + str(event.id) + ' died')
-            logging.info('Player ' + str(event.id) + ' loses')
+            print 'Player ' + str(event.id) + ' died'
             logging.info('Exitting.')
             self.event_manager.post(QuitGameEvent())
