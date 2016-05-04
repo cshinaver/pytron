@@ -20,7 +20,7 @@ HEIGHT = 480
 IS_HOST = None
 HOST = None
 PORT = None
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
 
 
 def parse_args():
