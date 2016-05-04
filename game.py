@@ -75,7 +75,7 @@ class Game:
             self.sprites[id] = b
         elif isinstance(event, PlayerDeath):
             logging.info('Player ' + str(event.id) + ' died')
-            del self.sprites[event.id]
+            #del self.sprites[event.id]
         elif isinstance(event, RemotePlayerDeath):
             logging.info('Player ' + str(event.id) + ' died')
-            del self.sprites[event.id]
+            #del self.sprites[event.id]
