@@ -2,6 +2,9 @@
 Programmed by:
 Jared Rodgers and Charles Shinaver
 
+Link to github repo here:
+https://github.com/cshinaver/pytron
+
 Pytron is our implementation of the classic tron game using the
 basic pyton libraries along with pygame and twisted. Our game works
 for two players and starts immediately upon connection between the
