@@ -38,7 +38,7 @@ class ClientProtocol(LineReceiver):
             r = RemoteMoveCharactorEvent(event.id, event.direction)
             self.transport.write(pickle.dumps(r) + '\r\n')
         elif isinstance(event, LocalMovePlayer):
-            r = RemoteMovePlayer(event.id, event.x, event.y)
+            r = RemoteMovePlayer(event.id, event.x, event.y, event.prex, event.prey)
             self.transport.write(pickle.dumps(r) + '\r\n')
 
 
@@ -70,7 +70,7 @@ class ServerProtocol(LineReceiver):
             r = RemoteMoveCharactorEvent(event.id, event.direction)
             self.transport.write(pickle.dumps(r) + '\r\n')
         elif isinstance(event, LocalMovePlayer):
-            r = RemoteMovePlayer(event.id, event.x, event.y)
+            r = RemoteMovePlayer(event.id, event.x, event.y, event.prex, event.prey)
             self.transport.write(pickle.dumps(r) + '\r\n')
         elif isinstance(event, CheckinEvent):
             id = 1
