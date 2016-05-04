@@ -128,6 +128,7 @@ class MovementController:
 class KeyboardController:
     def __init__(self, ev):
         self.event_manager = ev
+        self.game_over = False
 
     def handle_input(self):
         for event in pygame.event.get():
@@ -153,6 +154,10 @@ class KeyboardController:
 
     def notify(self, event):
         if isinstance(event, TickEvent):
+            if self.game_over:
+                return
             self.handle_input()
         elif isinstance(event, PlayerSetIDEvent):
             self.player_id = event.id
+        elif isinstance(event, QuitGameEvent):
+            self.game_over = True
