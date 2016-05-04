@@ -73,7 +73,6 @@ class View:
 class Bike(pygame.sprite.Sprite):
     def __init__(self, id=1, x=440, y=440, image_path="bike.png"):
         self.id = id
-        print "hi, im a bike"
         self.image_path = image_path
         self.image = pygame.image.load(self.image_path)
         self.image.set_colorkey((255, 255, 255))
@@ -94,7 +93,6 @@ class Bike(pygame.sprite.Sprite):
 
 class GameBoard:
     def __init__(self, WIDTH, HEIGHT, sprites):
-        print "hi, im a board"
         self.sprites = sprites
         self.color = (47, 79, 79)
         self.rows = 14
