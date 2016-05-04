@@ -126,37 +126,33 @@ class GameBoard:
         for s in self.sprites.values():
             if s.direction == "LEFT":
                 temp = s.prex
-                while temp != s.rect.centerx:
+                for r in range(s.rect.centerx, temp):
                     logging.debug("creating trail at {x}, {y}".format(
                         x=temp-self.x,
                         y=s.rect.centery-self.y,
                         ))
-                    self.board[temp - self.x][s.rect.centery - self.y] = s.id
-                    temp -= 1
+                    self.board[r - self.x][s.rect.centery - self.y] = s.id
             elif s.direction == "RIGHT":
                 temp = s.prex
-                while temp != s.rect.centerx:
+                for r in range(temp, s.rect.centerx):
                     logging.debug("creating trail at {x}, {y}".format(
                         x=temp-self.x,
                         y=s.rect.centery-self.y,
                         ))
-                    self.board[temp - self.x][s.rect.centery - self.y] = s.id
-                    temp += 1
+                    self.board[r - self.x][s.rect.centery - self.y] = s.id
             elif s.direction == "UP":
                 temp = s.prey
-                while temp != s.rect.centery:
+                for r in range(s.rect.centery, temp):
                     logging.debug("creating trail at {x}, {y}".format(
                         x=s.rect.centerx-self.x,
                         y=temp-self.y,
                         ))
-                    self.board[s.rect.centerx - self.x][temp - self.y] = s.id
-                    temp -= 1
+                    self.board[s.rect.centerx - self.x][r - self.y] = s.id
             elif s.direction == "DOWN":
                 temp = s.prey
-                while temp != s.rect.centery:
+                for r in range(temp, s.rect.centery):
                     logging.debug("creating trail at {x}, {y}".format(
                         x=s.rect.centerx-self.x,
                         y=temp-self.y,
                         ))
-                    self.board[s.rect.centerx - self.x][temp - self.y] = s.id
-                    temp += 1
+                    self.board[s.rect.centerx - self.x][r - self.y] = s.id

@@ -52,11 +52,15 @@ class MovementController:
                 self.player_id,
                 self.sprites[self.player_id].rect.centerx,
                 self.sprites[self.player_id].rect.centery,
+                self.sprites[self.player_id].prex,
+                self.sprites[self.player_id].prey,
             )
             self.event_manager.post(e)
         elif isinstance(event, RemoteMovePlayer):
             self.sprites[event.id].rect.centerx = event.x
             self.sprites[event.id].rect.centery = event.y
+            self.sprites[event.id].prex = event.prex
+            self.sprites[event.id].prey = event.prey
         elif isinstance(event, LocalMoveCharactorEvent):
             logging.info('Setting {id} direction to {d}'.format(
                 id=event.id,
