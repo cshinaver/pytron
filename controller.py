@@ -12,6 +12,8 @@ from event_manager import (
     PlayerSetIDEvent,
     RemoteMovePlayer,
     LocalMovePlayer,
+    PlayerCollision,
+    PlayerDeath,
 )
 
 
@@ -22,12 +24,15 @@ class MovementController:
         self.board = board
         self.player_direction = "DOWN"
         self.tick_index = 1
+        self.move_player = True
 
     def notify(self, event):
         if isinstance(event, TickEvent):
+            if not self.move_player:
+                return
             if not self.tick_index % 3:
                 bike = self.sprites[self.player_id]
-                ds = 1
+                ds = 2
                 if bike.direction == "LEFT":
                     bike.prex = bike.rect.centerx
                     bike.prey = bike.rect.centery
@@ -75,6 +80,11 @@ class MovementController:
             self.sprites[event.id].direction = event.direction
         elif isinstance(event, PlayerSetIDEvent):
             self.player_id = event.id
+        elif isinstance(event, PlayerCollision):
+            logging.info("Player " + str(event.player_id) + " died.")
+            self.event_manager.post(PlayerDeath(event.player_id))
+        elif isinstance(event, PlayerDeath):
+            self.move_player = False
 
     def dectectcollision(self, bike):
         cid = self.board.get_adjusted_position(bike.rect.centerx, bike.rect.centery)
@@ -83,26 +93,36 @@ class MovementController:
                 pid1=bike.id,
                 pid2=cid,
                 ))
-        elif (bike.direction == "LEFT" and bike.rect.centerx < 30):
+            e = PlayerCollision(player_id=bike.id, object_id=cid)
+            self.event_manager.post(e)
+        elif (bike.direction == "LEFT" and bike.rect.left < 20):
             logging.debug("collision {pid1} with {pid2}".format(
                 pid1=bike.id,
                 pid2=cid,
                 ))
-        elif (bike.direction == "RIGHT" and bike.rect.centerx > 445):
+            e = PlayerCollision(player_id=bike.id, object_id=cid)
+            self.event_manager.post(e)
+        elif (bike.direction == "RIGHT" and bike.rect.right > 455):
             logging.debug("collision {pid1} with {pid2}".format(
                 pid1=bike.id,
                 pid2=cid,
                 ))
-        elif (bike.direction == "UP" and bike.rect.centery < 30):
+            e = PlayerCollision(player_id=bike.id, object_id=cid)
+            self.event_manager.post(e)
+        elif (bike.direction == "UP" and bike.rect.top < 20):
             logging.debug("collision {pid1} with {pid2}".format(
                 pid1=bike.id,
                 pid2=cid,
                 ))
-        elif (bike.direction == "DOWN" and bike.rect.centery > 445):
+            e = PlayerCollision(player_id=bike.id, object_id=cid)
+            self.event_manager.post(e)
+        elif (bike.direction == "DOWN" and bike.rect.bottom > 455):
             logging.debug("collision {pid1} with {pid2}".format(
                 pid1=bike.id,
                 pid2=cid,
                 ))
+            e = PlayerCollision(player_id=bike.id, object_id=cid)
+            self.event_manager.post(e)
 
 
 class KeyboardController:
