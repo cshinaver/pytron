@@ -65,14 +65,18 @@ class RemoteMoveCharactorEvent:
 
 
 class RemoteMovePlayer:
-    def __init__(self, id, x, y):
+    def __init__(self, id, x, y, prex, prey):
         self.id = id
         self.x = x
         self.y = y
+        self.prex = prex
+        self.prey = prey
 
 
 class LocalMovePlayer:
-    def __init__(self, id, x, y):
+    def __init__(self, id, x, y, prex, prey):
         self.id = id
         self.x = x
         self.y = y
+        self.prex = prex
+        self.prey = prey
